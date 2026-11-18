@@ -1,0 +1,20 @@
+# Сложете във .github/workflows/test-egov-access.yml и пуснете ръчно
+# от раздела Actions -> "Тест на достъпа до data.egov.bg" -> Run workflow.
+# По желание: добавете секрет EGOV_API_KEY (Settings -> Secrets and variables -> Actions).
+name: Тест на достъпа до data.egov.bg
+
+on:
+  workflow_dispatch:
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Проба
+        env:
+          EGOV_API_KEY: ${{ secrets.EGOV_API_KEY }}
+        run: python scripts/test_egov_access.py
